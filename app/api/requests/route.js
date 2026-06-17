@@ -15,6 +15,21 @@ export async function POST(request){
   }
 
   if(process.env.RESEND_API_KEY){
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  const emailResult = await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: 'piperxx0518@gmail.com',
+    subject: `Nueva solicitud Panikan: ${service}`,
+    html: `<h2>Nueva solicitud Panikan</h2>
+      <p><b>Nombre:</b> ${name}</p>
+      <p><b>Teléfono:</b> ${phone}</p>
+      <p><b>Servicio:</b> ${service}</p>
+      <p><b>Descripción:</b> ${description}</p>`
+  });
+
+  console.log('RESEND_RESULT:', JSON.stringify(emailResult));
+}
    const resend = new Resend(process.env.RESEND_API_KEY);
    await resend.emails.send({
     from: 'onboarding@resend.dev',
